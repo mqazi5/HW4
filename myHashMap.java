@@ -231,6 +231,33 @@ class myHashMap<K,V> {
          * return value is returned the invoking function based on the remove outcome.
          */
 
+        int index = getBucketIndex(key);
+
+        HashNode<K, V> cursor = bucket.get(index); //uses bucket.get() to find the index of the bucket
+        HashNode<K, V> previous = null; // nide created to trakc the previous node inside the bucket linked list
+
+        //while loop that iterates through the bucket to find the key to be removed it first checks if the cursor head (fisrt) node of the bucket 
+        //is the key we are looking for and then checks the rest of the list
+        while (cursor != null) {
+            if(cursor.key.equals(key)) {
+                if(previous == null) {
+                    bucket.set(index, cursor.next);
+                } else {
+                    previous.next = cursor.next;
+                }
+
+                size--; // reduces size of the hashmap once the key is removed
+                return cursor.value; // returns the value that was removed
+            }
+
+            previous = cursor; // iterates to the next node
+            cursor = cursor.next; // iterates to the next node 
+        }
+
+        
+
+
+
         return null;
     }
 
@@ -406,7 +433,23 @@ class myHashMap<K,V> {
          * replace (see method's prologue above).
          */
 
-        return val;
+        int index = getBucketIndex(key); //get the index at which the key is located
+        HashNode<K, V> cursor = bucket.get(index);
+
+        // while loop that iterates through the bucket looking for they key and replaces it if it is found 
+        // storing the old value in a sperate variable and returning it
+        while(cursor != null) {
+            if(cursor.key.equals(key)) {
+                V old = cursor.value;
+                cursor.value = val;
+                return old;
+            }
+
+            cursor = cursor.next; //moves to the next node in bucket
+        
+        }
+
+        return null; // return null if key not found
     }
 
     
@@ -434,7 +477,17 @@ class myHashMap<K,V> {
          * value 'oldval', and is so, it SHOULD call replace(K, V) for code reuse.
          */
 
-        return false;
+        V current = get(key); //gets the current value of the key 
+
+         // if statement that checks if the current value is not null and it is equal to the oldVal basically checking if the key 
+         //already exists with the oldVal. if it does it uses the replace() method to replace the oldval with the newval and returns true
+         if(current != null && current.equals(oldVal)) {
+            replace(key, newVal);
+            return true;
+         }
+        
+
+        return false; // return false if key was not found
     }
 
 
