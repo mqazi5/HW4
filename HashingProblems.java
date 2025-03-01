@@ -1,5 +1,5 @@
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Mohammad Qazi / 001 ***
  *
  * This HashingProblems object contains three methods / problems that you must
  * complete utilize the HashMap object within the Java's Collection Framework Library.
@@ -40,8 +40,27 @@ class HashingProblems {
          * returning 0.0 is NOT correct, as that is not the average value. Whereas
          * returning 0.0/0.0 IS correct (which would return a non-number).
          */
+        
+        double sum = 0; //keeps track of the sum 
+        int count = 0; //keeps track of the count of numbers present in map and array
 
-         return 0.0 / 0.0;
+        // for loop that iterates trhough the array and then checks if the int in the array is in the hashmap
+        // if it is then it incriments count by 1 and adds it to the sum variable
+        for(int i =0; i < array.length; i++) {
+            int key = array[i];
+            if(map.containsKey(key)) {
+                sum += map.get(key);
+                count ++;
+            }
+        }
+
+        //if there is no value in common between the map and array then count will be 0 and returns a non-number
+        if(count == 0) {
+            return 0.0 / 0.0;
+        }
+
+
+        return sum / count;
   }
 
 
@@ -61,6 +80,15 @@ class HashingProblems {
        *
        * Hint: Consider iterating over the HashMap using the keySet method.
        */
+
+      // fo rloop that iterates through the HashMap using the keySet method
+       // it then uses an if statement to check if the key is odd by using modulo operator
+       // if it is odd then it is added to the resul array provided above
+       for (Integer key : map.keySet()) {
+        if (key % 2 != 0) { 
+            result.add(map.get(key));
+        }
+    }
 
 
       return result;
@@ -110,7 +138,23 @@ class HashingProblems {
        * ADD YOUR CODE HERE
        */
 
-      return -1;
+      HashSet<Integer> set = new HashSet<>();
+
+       int count = 0;
+
+       for (int i = 0; i < numbers.length; i++) {
+        // if statement checks if the set contains the difference between the number at i index and the value
+        // if it does then that means that a valid pair whos differnce is k is found and count is incrimented
+        if (set.contains(numbers[i] - k)) {
+            count++;
+        }
+        
+
+        
+        set.add(numbers[i]); // Add the current number to the set after checking to prevent double counting
+    }
+
+    return count;
   }
 
 } /* end class HashingProblems */
